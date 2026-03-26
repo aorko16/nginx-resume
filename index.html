@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Morgan — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f5f0e8;
+    --cream: #ede8da;
+    --gold: #b8953a;
+    --rust: #c0522a;
+    --muted: #7a7060;
+    --line: rgba(26,26,26,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .name-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .name-block h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .title-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--muted);
+    padding: 4px 10px;
+  }
+
+  .contact-block {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  .contact-block a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-block a:hover { color: var(--rust); }
+
+  /* ── LAYOUT ── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 44px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  section:nth-child(1) { animation-delay: 0.15s; }
+  section:nth-child(2) { animation-delay: 0.25s; }
+  section:nth-child(3) { animation-delay: 0.35s; }
+  section:nth-child(4) { animation-delay: 0.45s; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── SUMMARY ── */
+  .summary p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: #2e2b24;
+  }
+
+  /* ── EXPERIENCE ── */
+  .job {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .job:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .job-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .job-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .job-company {
+    font-size: 0.82rem;
+    color: var(--rust);
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  .job ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .job ul li {
+    font-size: 0.88rem;
+    color: #3a3630;
+    padding: 3px 0 3px 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .job ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.75rem;
+    top: 4px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar section {
+    animation-delay: 0.3s;
+  }
+
+  /* ── SKILLS ── */
+  .skill-group { margin-bottom: 20px; }
+
+  .skill-group-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 3px 9px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .tag:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    cursor: default;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-item { margin-bottom: 20px; }
+
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .edu-school {
+    font-size: 0.82rem;
+    color: var(--rust);
+    font-weight: 500;
+  }
+
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ── LANGUAGES ── */
+  .lang-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .lang-item:last-child { border-bottom: none; }
+
+  .lang-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body::before { display: none; }
+    .page { padding: 20px; }
+  }
+
+  @media (max-width: 680px) {
+    .body-grid { grid-template-columns: 1fr; gap: 0; }
+    header { grid-template-columns: 1fr; }
+    .contact-block { text-align: left; }
+    .page { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="name-block">
+      <h1>Alex <em>Morgan</em> Serve by Nginx Dockerfile</h1>
+      <span class="title-tag">Senior Product Designer </span>
+    </div>
+    <div class="contact-block">
+      <div>Toronto, Ontario, CA</div>
+      <div><a href="mailto:alex@morgan.io">alex@morgan.io</a></div>
+      <div><a href="#">linkedin.com/in/alexmorgan</a></div>
+      <div><a href="#">alexmorgan.io</a></div>
+      <div>+1 (416) 555-0192</div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="body-grid">
+
+    <!-- MAIN COLUMN -->
+    <main>
+
+      <!-- SUMMARY -->
+      <section class="summary">
+        <div class="section-label">Profile</div>
+        <p>
+          Product designer with 8+ years shaping digital experiences across fintech, 
+          health, and consumer apps. I bridge research and craft — equally comfortable 
+          running discovery interviews and obsessing over 2px spacing. Known for turning 
+          complex systems into interfaces that feel obvious.
+        </p>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section>
+        <div class="section-label">Experience</div>
+
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Lead Product Designer</div>
+            <div class="job-date">2022 — Present</div>
+          </div>
+          <div class="job-company">Northfield Financial · Toronto, ON</div>
+          <ul>
+            <li>Led end-to-end redesign of the core investing dashboard, reducing task completion time by 34%.</li>
+            <li>Built and managed a design system used by 6 product teams across web and mobile.</li>
+            <li>Partnered with engineering to ship a new onboarding flow, lifting activation rates by 21%.</li>
+            <li>Mentored 3 junior designers through weekly 1:1s and design critique sessions.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Senior UX Designer</div>
+            <div class="job-date">2019 — 2022</div>
+          </div>
+          <div class="job-company">Wellpath Health · Remote</div>
+          <ul>
+            <li>Designed a patient-facing scheduling app from zero to launch; acquired 80k+ users in year one.</li>
+            <li>Ran usability studies with 100+ participants, translating findings into prioritized backlogs.</li>
+            <li>Collaborated with clinical advisors to ensure WCAG 2.1 AA compliance across all surfaces.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">UX / UI Designer</div>
+            <div class="job-date">2016 — 2019</div>
+          </div>
+          <div class="job-company">Studio Hatch · Vancouver, BC</div>
+          <ul>
+            <li>Delivered design for 14+ client projects spanning e-commerce, SaaS, and marketing sites.</li>
+            <li>Introduced Figma to the studio, cutting handoff time by 40% through shared component libraries.</li>
+          </ul>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- SKILLS -->
+      <section>
+        <div class="section-label">Skills</div>
+
+        <div class="skill-group">
+          <div class="skill-group-name">Design</div>
+          <div class="skill-tags">
+            <span class="tag">Figma</span>
+            <span class="tag">Prototyping</span>
+            <span class="tag">Design Systems</span>
+            <span class="tag">Motion</span>
+            <span class="tag">Illustration</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-name">Research</div>
+          <div class="skill-tags">
+            <span class="tag">User Interviews</span>
+            <span class="tag">Usability Testing</span>
+            <span class="tag">A/B Testing</span>
+            <span class="tag">Analytics</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-name">Technical</div>
+          <div class="skill-tags">
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">React basics</span>
+            <span class="tag">Storybook</span>
+            <span class="tag">WCAG 2.1</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section>
+        <div class="section-label">Education</div>
+
+        <div class="edu-item">
+          <div class="edu-degree">BDes, Interaction Design</div>
+          <div class="edu-school">OCAD University</div>
+          <div class="edu-year">2012 — 2016</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">Certificate, UX Research</div>
+          <div class="edu-school">Nielsen Norman Group</div>
+          <div class="edu-year">2020</div>
+        </div>
+      </section>
+
+      <!-- LANGUAGES -->
+      <section>
+        <div class="section-label">Languages</div>
+        <div class="lang-item">
+          <span>English</span><span class="lang-level">Native</span>
+        </div>
+        <div class="lang-item">
+          <span>French</span><span class="lang-level">Professional</span>
+        </div>
+        <div class="lang-item">
+          <span>Spanish</span><span class="lang-level">Conversational</span>
+        </div>
+      </section>
+
+      <!-- AWARDS -->
+      <section>
+        <div class="section-label">Recognition</div>
+        <div class="edu-item">
+          <div class="edu-degree">Awwwards — SOTD</div>
+          <div class="edu-school">Wellpath App Redesign</div>
+          <div class="edu-year">2021</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Dribbble Top Designer</div>
+          <div class="edu-school">Selected by editors</div>
+          <div class="edu-year">2023</div>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+</div>
+</body>
+</html>
