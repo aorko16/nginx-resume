@@ -1,4 +1,5 @@
 name: Docker Image CI to ECR
+
 on:
   push:
     branches: [ "main" ]
@@ -11,29 +12,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    #  Configure AWS
+    # ✅ Configure AWS
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
-    # Login to ECR
+    # ✅ Login to ECR
     - name: Login to Amazon ECR
       run: |
         aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
         | docker login --username AWS \
         --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-    #  Build Image
+    # ✅ Build Image
     - name: Build Docker image
       run: |
         docker build . \
-          -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo:${{ github.sha }} \
-          
-    #  Push Image
+          -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo:${{ github.sha }}
+
+    # ✅ Push Image
     - name: Push Docker image
       run: |
         docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo:${{ github.sha }}
-        
