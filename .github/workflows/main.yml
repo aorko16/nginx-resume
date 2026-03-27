@@ -17,25 +17,39 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}       # Required
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # Required
-        aws-region: ${{ secrets.AWS_REGION }}                     # Required
-        output-env-credentials: true                               # Optional: set AWS env variables
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        output-env-credentials: true
 
-    # 3️⃣ Login to Amazon ECR
+    # 3️⃣ Create ECR repository if not exists
+    - name: Create ECR repository
+      run: |
+        REPO_NAME="demo"
+        if ! aws ecr describe-repositories --repository-names "$REPO_NAME" >/dev/null 2>&1; then
+          echo "Creating ECR repository $REPO_NAME..."
+          aws ecr create-repository --repository-name "$REPO_NAME" >/dev/null
+        else
+          echo "ECR repository $REPO_NAME already exists."
+        fi
+
+    # 4️⃣ Login to Amazon ECR
     - name: Login to Amazon ECR
       run: |
         echo "Logging in to ECR..."
-        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
-        | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login \
+          --username AWS \
+          --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-    # 4️⃣ Build Docker image
+    # 5️⃣ Build Docker image
     - name: Build Docker image
       run: |
-        docker build . \
-          -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo:${{ github.sha }}
+        IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo"
+        docker build . -t $IMAGE_URI:${{ github.sha }} -t $IMAGE_URI:latest
 
-    # 5️⃣ Push Docker image to ECR
+    # 6️⃣ Push Docker image
     - name: Push Docker image
       run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo:${{ github.sha }}
+        IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/demo"
+        docker push $IMAGE_URI:${{ github.sha }}
+        docker push $IMAGE_URI:latest
