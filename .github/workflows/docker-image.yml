@@ -1,0 +1,21 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login to GitHub Container Registry
+      run: echo "${{ secrets.IMAGE_REGISTERY }}" | docker login ghcr.io -u aorko16 --password-stdin
+
+    - name: Build Docker image
+      run: docker build . -t ghcr.io/aorko16/demo:${{ github.sha }}
+
+    - name: Push Docker image
+      run: docker push ghcr.io/aorko16/demo:${{ github.sha }}
+      
